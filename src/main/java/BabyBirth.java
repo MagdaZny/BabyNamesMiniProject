@@ -1,6 +1,8 @@
+import duke.DirectoryResource;
 import duke.FileResource;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,22 +54,23 @@ public class BabyBirth {
 public static String getName(int year, long rank, String gender) {
     FileResource fr = new FileResource("us_babynames/us_babynames_by_year/yob"+year+".csv");
 
-    long count = 0;
     for (CSVRecord record : fr.getCSVParser(false)) {
         if (record.get(1).equals(gender)) {
-            int currentRecordNum = Integer.parseInt(record.get(2));
+            long count = 0;
+            long currentRecordNum = Long.parseLong(record.get(2));
             for (CSVRecord recordd : fr.getCSVParser(false)) {
                 if (recordd.get(1).equals(gender)) {
-                    int currentRecorddNum = Integer.parseInt(recordd.get(2));
-                    if (currentRecorddNum > currentRecordNum) count++;
-                }
+                    long currentRecorddNum = Long.parseLong(recordd.get(2));
+                    if (currentRecorddNum > currentRecordNum) {
+                        count++;}
+                    }
             }
+            if (count==(rank-1l)) {return record.get(0);}
         }
-        if ((count+1)==rank) return record.get(0);
-
-    }
+        }
     return "NO NAME";
 }
+
  public static String whatIsNameInYear(String name, int year, int newYear, String gender){
      long rank = getRank(year, name, gender);
      String newName = getName(newYear, rank, gender);
@@ -89,17 +92,36 @@ public static String getName(int year, long rank, String gender) {
 
     public static double getAverageRank(String name, String gender){
 
+        DirectoryResource dr = new DirectoryResource();
+        long sumSoFar=0;
+        long count=0;
+        for (File f : dr.selectedFiles()) {
+            int year=Integer.parseInt(f.getAbsolutePath().substring(3,7));
+            sumSoFar +=getRank(year, name, gender);
+            count++;
+        }
+        return sumSoFar/count;
     }
 
 
     public static void main(String[] arg){
-//        FileResource file = new FileResource("yob2012short.csv");
-//        printNames(file);
-//        List<Integer> born = totalBirth(file);
+//       FileResource file = new FileResource("us_babynames/us_babynames_by_year/yob1905.csv");
+//       printNames(file);
+//       List<Integer> born = totalBirth(file);
 //        System.out.println("Number born: "+born.get(0) +" number of boys born: "+born.get(1));
-//        System.out.println("Olivia in 2012 was the " + getRank(2012, "Olivia", "F")+ " most popular name among girls born.");
-         // System.out.println("2nd girl in 2012 was " + getName(2012, 2, "F") );
-         // System.out.println("Emma in 2014 was "+whatIsNameInYear("Emma", 1991, 2000, "F"));
-     System.out.println("Emma was the most popular nam in "+yearOfHighestRank("Emma", "F"));
+        //System.out.println("Frank in 1971 was the " + getRank(1971, "Frank", "F")+ " most popular name among girls born.");
+       //System.out.println("350th girl's name in 2012 was " + getName(1980, 4, "F") );
+       // System.out.println("450th girl's name in 2012 was " + getName(1982, 450, "M") );
+      //   System.out.println("Susan in 2014 was "+whatIsNameInYear("Susan", 1972, 2014, "F"));
+        //System.out.println("Owen in 2014 was "+whatIsNameInYear("Owen", 1974, 2014, "M"));
+//long owenRank=getRank(1974, "Owen", "M");
+//System.out.print(owenRank);
+System.out.print(" , "+getName(2014, 6006, "M"));
+        //Suppose Susan was born in 1972. Based on her name's rank in 1972,
+// what would her name be if she were born in 2014 (that is, what name in 2014 had the same rank that "Susan" had in 1972)?
+//System.out.println("Average ranking for Susan: " + getAverageRank("Susan", "F"));
+//System.out.println("Average ranking for Robert: " + getAverageRank("Robert", "M"));
+
+        // System.out.println("Emma was the most popular nam in "+yearOfHighestRank("Emma", "F"));
     }
 }
