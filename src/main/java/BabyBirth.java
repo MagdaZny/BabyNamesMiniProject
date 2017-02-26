@@ -45,58 +45,53 @@ public class BabyBirth {
 
         for (CSVRecord record: fr.getCSVParser(false)) {
             int currentNum = Integer.parseInt(record.get(2));
-            if (currentNum>nameNum){
+            if (record.get(1).equals(gender) && currentNum>nameNum){
                 count++;
             }
         }
-        return count+1;
+        return (count+1);
     }
 
-    public static int getRank2(int year, String name, String gender){
-        FileResource fr = new FileResource("us_babynames/us_babynames_by_year/yob"+year+".csv");
-        int nameNum=0;
-        for (CSVRecord record: fr.getCSVParser(false)) {
-                nameNum = Integer.parseInt(record.get(2));
-        }
+//    public static int getRank2(int year, String name, String gender){
+//        FileResource fr = new FileResource("us_babynames/us_babynames_by_year/yob"+year+".csv");
+//        int nameNum=0;
+//        for (CSVRecord record: fr.getCSVParser(false)) {
+//                nameNum = Integer.parseInt(record.get(2));
+//        }
+//
+//        int biggestInLoop=1000000;
+//        int count=0;
+//
+//        while(nameNum<biggestInLoop){
+//            int biggestSoFar = 0;
+//            for (CSVRecord record: fr.getCSVParser(false)) {
+//                int currentNum = Integer.parseInt(record.get(2));
+//                if (currentNum < biggestInLoop && currentNum > biggestSoFar) biggestSoFar = currentNum;
+//            }
+//        biggestInLoop = biggestSoFar;
+//        count++;
+//        }
+//            return count+1;
+//    }
 
-        int biggestInLoop=1000000;
-        int count=0;
-
-        while(nameNum<biggestInLoop){
-
-            int biggestSoFar = 0;
-            for (CSVRecord record: fr.getCSVParser(false)) {
-                int currentNum = Integer.parseInt(record.get(2));
-                if (currentNum>=biggestInLoop) break;
-                else {
-                    if (currentNum > biggestSoFar) {
-                        biggestSoFar = currentNum;
-                    }
-                }}
-        biggestInLoop = biggestSoFar;
-        count++;
-        }
-            return count+1;
-    }
-
-    public static int getRank3(int year, String name, String gender){
-        FileResource fr = new FileResource("us_babynames/us_babynames_by_year/yob"+year+".csv");
-        int nameNum=0;
-        for (CSVRecord record: fr.getCSVParser(false)) {
-            nameNum = Integer.parseInt(record.get(2));
-        }
-        int count=0;
-        int biggestSoFar=0;
-        while(biggestSoFar>nameNum){
-            for (CSVRecord record: fr.getCSVParser(false)) {
-                int currentNum = Integer.parseInt(record.get(2));
-                if (currentNum==biggestSoFar) break;
-                else if(currentNum>biggestSoFar &&biggestSoFar>nameNum){
-                    biggestSoFar=currentNum;
-                    count++;}
-            }}
-        return count+1;
-    }
+//    public static int getRank3(int year, String name, String gender){
+//        FileResource fr = new FileResource("us_babynames/us_babynames_by_year/yob"+year+".csv");
+//        int nameNum=0;
+//        for (CSVRecord record: fr.getCSVParser(false)) {
+//            nameNum = Integer.parseInt(record.get(2));
+//        }
+//        int count=0;
+//        int biggestSoFar=0;
+//        while(biggestSoFar>nameNum){
+//            for (CSVRecord record: fr.getCSVParser(false)) {
+//                int currentNum = Integer.parseInt(record.get(2));
+//                if (currentNum==biggestSoFar) break;
+//                else if(currentNum>biggestSoFar &&biggestSoFar>nameNum){
+//                    biggestSoFar=currentNum;
+//                    count++;}
+//            }}
+//        return count+1;
+//    }
 
 
 public static String getName(int year, int rank, String gender) {
@@ -145,18 +140,21 @@ public static String getName(int year, int rank, String gender) {
 
 
     public static void main(String[] arg){
+
+
 //       FileResource f1 = new FileResource("us_babynames/us_babynames_by_year/yob1900.csv");
 //       FileResource f2 = new FileResource("us_babynames/us_babynames_by_year/yob1905.csv");
 //       List<Integer> born1900 = totalBirth(f1);
 //       List<Integer> born1905 = totalBirth(f2);
 //       System.out.println("Number of girls born: "+born1900.get(2));
 //       System.out.println("Number of boys born: "+born1905.get(1));
-//
-//       System.out.println("In 1960 Emily was the: "+getRank(1960, "Emily", "F"));
-//       System.out.println("Frank in 1971 was the " + getRank(1971, "Frank", "M")+ " most popular name.");
+
+      System.out.println("In 1960 Susan was the: "+getRank(1960, "Susan", "F"));
+
+//        System.out.println("Frank in 1971 was the " + getRank(1971, "Frank", "M")+ " most popular name.");
 
       // System.out.println("350th girl's name in 1980 was " + getName(1980, 350, "F"));
-       System.out.println("450th boys's name in 1982 was " + getName(1982, 450, "M"));
+   //    System.out.println("450th boys's name in 1982 was " + getName(1982, 450, "M"));
 
 //        System.out.println("Susan in 2014 was "+whatIsNameInYear("Susan", 1972, 2014, "F"));
 //        System.out.println("Owen in 2014 was "+whatIsNameInYear("Owen", 1974, 2014, "M"));
